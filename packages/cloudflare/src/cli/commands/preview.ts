@@ -1,7 +1,7 @@
 import { BuildOptions } from "@opennextjs/aws/build/helper.js";
 
 import type { OpenNextConfig } from "../../api/config.js";
-import { getWranglerConfigFlag, getWranglerEnvironmentFlag, runWrangler } from "../utils/run-wrangler.js";
+import { getWranglerEnvironmentFlag, runWrangler } from "../utils/run-wrangler.js";
 import { populateCache } from "./populate-cache.js";
 
 export async function preview(
@@ -12,7 +12,6 @@ export async function preview(
 	await populateCache(options, config, {
 		target: "local",
 		environment: getWranglerEnvironmentFlag(previewOptions.passthroughArgs),
-		config: getWranglerConfigFlag(previewOptions.passthroughArgs),
 		cacheChunkSize: previewOptions.cacheChunkSize,
 	});
 

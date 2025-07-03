@@ -102,14 +102,11 @@ async function getPlatformProxyEnv<T extends keyof CloudflareEnv>(options: GetPl
 
 async function populateR2IncrementalCache(
 	options: BuildOptions,
-	populateCacheOptions: { target: WranglerTarget; environment?: string; config?: string }
+	populateCacheOptions: { target: WranglerTarget; environment?: string }
 ) {
 	logger.info("\nPopulating R2 incremental cache...");
 
-	const config = unstable_readConfig({
-		env: populateCacheOptions.environment,
-		config: populateCacheOptions.config,
-	});
+	const config = unstable_readConfig({ env: populateCacheOptions.environment });
 
 	const binding = config.r2_buckets.find(({ binding }) => binding === R2_CACHE_BINDING_NAME);
 	if (!binding) {
@@ -148,19 +145,11 @@ async function populateR2IncrementalCache(
 
 async function populateKVIncrementalCache(
 	options: BuildOptions,
-	populateCacheOptions: {
-		target: WranglerTarget;
-		environment?: string;
-		config?: string;
-		cacheChunkSize?: number;
-	}
+	populateCacheOptions: { target: WranglerTarget; environment?: string; cacheChunkSize?: number }
 ) {
 	logger.info("\nPopulating KV incremental cache...");
 
-	const config = unstable_readConfig({
-		env: populateCacheOptions.environment,
-		config: populateCacheOptions.config,
-	});
+	const config = unstable_readConfig({ env: populateCacheOptions.environment });
 
 	const binding = config.kv_namespaces.find(({ binding }) => binding === KV_CACHE_BINDING_NAME);
 	if (!binding) {
@@ -244,12 +233,7 @@ function populateStaticAssetsIncrementalCache(options: BuildOptions) {
 export async function populateCache(
 	options: BuildOptions,
 	config: OpenNextConfig,
-	populateCacheOptions: {
-		target: WranglerTarget;
-		environment?: string;
-		config?: string;
-		cacheChunkSize?: number;
-	}
+	populateCacheOptions: { target: WranglerTarget; environment?: string; cacheChunkSize?: number }
 ) {
 	const { incrementalCache, tagCache } = config.default.override ?? {};
 
